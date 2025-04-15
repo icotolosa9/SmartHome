@@ -1,0 +1,26 @@
+<div class="container mt-5">
+    <h2>Asociar Dispositivo al Hogar</h2>
+    
+    <form [formGroup]="associateDeviceForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="deviceName" class="form-label">Nombre del Dispositivo</label>
+        <input id="deviceName" type="text" class="form-control" formControlName="deviceName" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="deviceModel" class="form-label">Modelo del Dispositivo</label>
+        <input id="deviceModel" type="text" class="form-control" formControlName="deviceModel" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="connected" class="form-label">Estado de Conexión</label>
+        <select id="connected" class="form-control" formControlName="connected" required>
+          <option [ngValue]="true">Conectado</option>
+          <option [ngValue]="false">Desconectado</option>
+        </select>
+      </div>
+  
+      <button type="submit" class="btn btn-primary w-100">Asociar Dispositivo</button>
+    </form>
+  </div>
+  

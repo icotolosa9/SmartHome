@@ -1,0 +1,28 @@
+<div class="container mt-5">
+    <h2 class="mb-4">Crear Administrador</h2>
+    <form (ngSubmit)="onSubmit()" #adminForm="ngForm" novalidate>
+      <div class="mb-3">
+        <label for="firstName" class="form-label">Nombre</label>
+        <input id="firstName" type="text" class="form-control" [(ngModel)]="firstName" name="firstName" required #firstNameCtrl="ngModel" />
+        <div *ngIf="firstNameCtrl.invalid" class="text-danger">
+          El nombre es obligatorio.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="lastName" class="form-label">Apellido</label>
+        <input id="lastName" type="text" class="form-control" [(ngModel)]="lastName" name="lastName" required #lastNameCtrl="ngModel" />
+        <div *ngIf="lastNameCtrl.invalid" class="text-danger">
+          El apellido es obligatorio.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo Electrónico</label>
+        <input id="email" type="email" class="form-control" [(ngModel)]="email" name="email" required />
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input id="password" type="password" class="form-control" [(ngModel)]="password" name="password" required />
+      </div>
+      <button type="submit" class="btn btn-primary w-100" [disabled]="adminForm.invalid">Crear Administrador</button>
+    </form>
+</div>

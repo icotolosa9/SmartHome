@@ -1,0 +1,55 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Lista de Cuentas</h2>
+  <div *ngIf="loading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <input type="text" class="form-control" [(ngModel)]="fullName" placeholder="Filtrar por nombre completo" />
+    </div>
+    <div class="col-md-4">
+      <input type="text" class="form-control" [(ngModel)]="role" placeholder="Filtrar por rol" />
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary" (click)="applyFilters()">Buscar</button>
+    </div>
+  </div>
+
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Nombre Completo</th>
+        <th>Rol</th>
+        <th>Fecha de Creación</th>
+        <th class="text-center small-column"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let account of accounts">
+        <td>{{ account.firstName }}</td>
+        <td>{{ account.lastName }}</td>
+        <td>{{ account.fullName }}</td>
+        <td>{{ account.role }}</td>
+        <td>{{ account.creationDate | date: 'dd/MM/yyyy' }}</td>
+        <td class="text-center">
+          <button *ngIf="account.role === 'admin'" class="btn btn-danger btn-sm" (click)="deleteAdmin(account.id)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-between align-items-center mt-3">
+    <button class="btn btn-secondary" (click)="prevPage()" [disabled]="pageNumber === 1">Anterior</button>
+    <span>Página {{ pageNumber }}</span>
+    <button class="btn btn-secondary" (click)="nextPage()" [disabled]="pageNumber * pageSize >= totalItems">Siguiente</button>
+  </div>
+
+  <div class="mt-5 d-flex">
+    <button class="btn btn-primary me-2" routerLink="/create-company-owner">Crear Dueño de Empresa</button>
+    <button class="btn btn-primary" routerLink="/create-admin">Crear Administrador</button>
+  </div>
+</div>

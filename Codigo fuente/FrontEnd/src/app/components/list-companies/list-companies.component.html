@@ -1,0 +1,79 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Empresas</h2>
+
+  <div *ngIf="isCompanyOwner">
+    <div *ngIf="isLoading" class="text-center my-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+
+    <div *ngIf="company; else noCompany" class="mb-3">
+      <h4>Información de mi Empresa</h4>
+      <p><strong>Nombre:</strong> {{ company.companyName }}</p>
+      <p><strong>RUT:</strong> {{ company.companyRut }}</p>
+      <p><strong>Dueño:</strong> {{ company.companyOwnerFullName }}</p>
+      <p><strong>Email del Dueño:</strong> {{ company.companyOwnerEmail }}</p>
+    </div>
+
+    <ng-template #noCompany>
+      <p class="text-muted">Todavía no has creado una empresa.</p>
+      <button class="btn btn-primary" routerLink="/create-company">Crear Empresa</button>
+    </ng-template>
+  </div>
+
+  <div class="row mb-3" *ngIf="isAdmin">
+    <div class="col-md-6">
+      <input type="text" class="form-control" [(ngModel)]="companyName" placeholder="Filtrar por nombre de la empresa"/>
+    </div>
+    <div class="col-md-4">
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="ownerFullName"
+        placeholder="Filtrar por nombre del dueño"
+      />
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary w-100" (click)="applyFilters()">Buscar</button>
+    </div>
+  </div>
+  <div *ngIf="isLoading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+  <div *ngIf="isAdmin">
+    <table class="table table-bordered" *ngIf="!isLoading && companies.length > 0; else noData">
+      <thead class="table-dark">
+        <tr>
+          <th>Nombre de la Empresa</th>
+          <th>RUT</th>
+          <th>Dueño</th>
+          <th>Email del Dueño</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let company of companies">
+          <td>{{ company.companyName }}</td>
+          <td>{{ company.companyRut }}</td>
+          <td>{{ company.companyOwnerFullName }}</td>
+          <td>{{ company.companyOwnerEmail }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template #noData>
+    <div class="text-center text-muted">No hay empresas registradas.</div>
+  </ng-template>
+  <div *ngIf="!isLoading && companies.length > 0" class="d-flex justify-content-between align-items-center mt-3">
+    <button class="btn btn-secondary" (click)="prevPage()" [disabled]="pageNumber === 1">Anterior</button>
+    <span>Página {{ pageNumber }}</span>
+    <button class="btn btn-secondary" (click)="nextPage()" [disabled]="pageNumber * pageSize >= totalItems">Siguiente</button>
+  </div>
+
+  <div class="mt-5 d-flex" *ngIf="isCompanyOwner">
+    <button class="btn btn-primary me-2" routerLink="/register-device">Registrar Dispositivo</button>
+    <button class="btn btn-primary" routerLink="/import-devices">Importar Dispositivos</button>
+  </div>
+</div>

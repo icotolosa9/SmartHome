@@ -1,0 +1,38 @@
+<div class="container mt-4">
+    <h2>Hola, {{ userName }}</h2>
+    <h2>Bienvenido a SmartHome!</h2>
+    <p>Administra tus hogares y dispositivos desde aquí.</p>
+  
+    <div class="row mt-4">
+      <div class="col-md-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">Hogares</h5>
+            <p class="card-text">Visualiza y administra tus hogares.</p>
+            <button class="btn btn-primary w-100" [routerLink]="['/list-homes']">Ir a Hogares</button>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-md-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">Dispositivos</h5>
+            <p class="card-text">Busca los dispositivos disponibles.</p>
+            <button class="btn btn-primary w-100" [routerLink]="['/list-devices']">Ir a Dispositivos</button>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-md-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">Empresas</h5>
+            <p class="card-text">Gestiona las empresas.</p>
+            <button class="btn btn-primary w-100" [routerLink]="['/list-companies']">Ir a Empresas</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

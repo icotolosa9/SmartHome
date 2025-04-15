@@ -1,0 +1,49 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Mis Hogares</h2>
+  <div *ngIf="isLoadingHomes" class="text-center mt-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+  <div *ngIf="!isLoadingHomes"> 
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>Nombre</th>
+        <th>Capacidad</th>
+        <th>Dirección</th>
+        <th class="text-center small-column"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let home of homes">
+        <td>
+          <div class="d-flex align-items-center">
+            <span *ngIf="!home.isEditing">{{ home.name }}</span>
+            <input *ngIf="home.isEditing" [(ngModel)]="home.name" class="form-control me-2" />
+
+            <button *ngIf="!home.isEditing" class="btn btn-outline-primary btn-sm ms-2" (click)="toggleEdit(home)">
+              Editar
+            </button>
+            <button *ngIf="home.isEditing" class="btn btn-success btn-sm ms-2" (click)="saveHomeName(home)">
+              Guardar
+            </button>
+          </div>
+        </td>
+        <td>{{ home.capacity }}</td>
+        <td>{{ home.address }}</td>
+        <td class="text-center">
+          <button class="btn btn-secondary btn-sm" [routerLink]="['/home-details', home.id]">Ver Detalles</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="homes.length === 0" class="text-center text-muted">No tienes hogares registrados.</p>
+</div>
+
+  <div class="mt-5">
+    <button class="btn btn-primary" routerLink="/create-home">
+      Crear Hogar
+    </button>
+  </div>
+</div>

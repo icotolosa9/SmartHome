@@ -1,0 +1,47 @@
+.popover-notifications {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    width: 300px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 10px;
+    overflow-y: auto;
+    max-height: 400px;
+  }
+  
+  .popover-notifications h5 {
+    margin-top: 0;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .popover-notifications ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .popover-notifications li {
+    margin-bottom: 10px;
+  }
+  
+  .bi-bell {
+    color: white; /* Cambia el color del icono */
+    font-size: 24px; /* Aumenta el tamaño si es necesario */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el icono */
+  }
+  
+  .badge {
+    background-color: red; /* Color del badge */
+    color: white; /* Texto del badge */
+    font-size: 12px;
+    border-radius: 50%;
+    padding: 2px 6px;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+  }

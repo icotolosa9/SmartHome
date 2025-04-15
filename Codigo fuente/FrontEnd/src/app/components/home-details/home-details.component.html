@@ -1,0 +1,130 @@
+  <div class="container mt-5">
+    <h2 class="mb-4">Detalles del Hogar</h2>
+  
+    <div class="d-flex justify-content-end mb-3">
+      <button class="btn btn-primary me-2" [routerLink]="['/add-member', homeId]">Agregar Miembros</button>
+      <button class="btn btn-primary me-2" (click)="toggleEditNotifications()">Modificar Notificaciones</button>
+      <button class="btn btn-primary me-2" [routerLink]="['/associate-device', homeId]">Agregar Dispositivo</button>
+      <button class="btn btn-primary" (click)="openCreateRoomModal()">Crear Cuarto</button>
+    </div>
+  
+    <button class="btn btn-outline-secondary mb-3 w-100" (click)="toggleMembers()">
+      {{ showMembers ? 'Ocultar Miembros' : 'Ver Miembros' }}
+    </button>
+    <div *ngIf="showMembers">
+      <h4>Miembros</h4>
+      <div *ngIf="loadingMembers" class="text-center my-3">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+      <table class="table table-bordered mb-4">
+        <thead class="table-dark">
+          <tr>
+            <th>Nombre Completo</th>
+            <th>Correo Electrónico</th>
+            <th>Permisos</th>
+            <th>Notificaciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let member of members">
+            <td>{{ member.firstName }}</td>
+            <td>{{ member.email }}</td>
+            <td>{{ member.permissions.join(', ') }}</td>
+            <td>{{ member.isNotificationsOn ? 'Sí' : 'No' }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="text-center" *ngIf="!loadingMembers && members.length === 0">No hay miembros en este hogar.</p>
+
+      <div *ngIf="isEditingNotifications" class="mb-4">
+        <h5>Configurar Notificaciones</h5>
+        <table class="table table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th>Correo Electrónico</th>
+              <th>Recibir Notificaciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let member of members">
+              <td>{{ member.email }}</td>
+              <td>
+                <input type="checkbox" [(ngModel)]="member.isNotificationsOn" name="notification_{{ member.email }}" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="btn btn-success" (click)="updateNotifications()">Guardar Cambios</button>
+        <button class="btn btn-danger ms-2" (click)="toggleEditNotifications()">Cancelar</button>
+      </div>
+    </div>
+  
+    <button class="btn btn-outline-secondary mb-3 w-100" (click)="toggleDevices()">
+      {{ showDevices ? 'Ocultar Dispositivos' : 'Ver Dispositivos' }}
+    </button>
+    <div *ngIf="showDevices">
+      <h4 class="mb-4">Dispositivos del Hogar</h4>
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <input type="text" class="form-control" [(ngModel)]="roomName" placeholder="Filtrar por cuarto" />
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary" (click)="applyFilter()">Buscar</button>
+        </div>
+      </div>
+      <div *ngIf="loadingDevices" class="text-center my-3">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+      <table class="table table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th>Estado de conexión</th>
+            <th>Nombre</th>
+            <th>Modelo</th>
+            <th>Foto</th>
+            <th>Empresa</th>
+            <th>Estado</th>
+            <th>Cuarto</th>
+            <th style="width: 160px; text-align: center;"></th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let device of devices">
+            <td>
+              <ng-container *ngIf="device.connected">
+                Conectado
+                <button class="btn btn-sm btn-danger ms-2" (click)="toggleDeviceConnection(device, false)">Desconectar</button>
+              </ng-container>
+              <ng-container *ngIf="!device.connected">
+                Desconectado
+                <button class="btn btn-sm btn-success ms-2" (click)="toggleDeviceConnection(device, true)">Conectar</button>
+              </ng-container>
+            </td>
+            <td>
+              {{ device.name }}
+              <button class="btn btn-secondary btn-sm p-1" (click)="openEditDeviceNameModal(device)"><i class="bi bi-pencil-fill"></i></button>
+            </td>
+            <td>{{ device.model }}</td>
+            <td><img [src]="device.mainPicture" alt="Foto del dispositivo" width="50" /> </td>
+            <td>{{ device.company || 'N/A' }}</td>
+            <td>
+              <ng-container *ngIf="device.connected && (device.openOrOn !== null)">{{ device.openOrOn ? 'Encendido/Abierto' : 'Apagado/Cerrado' }}</ng-container>
+              <ng-container *ngIf="!device.connected">-</ng-container>
+            </td>
+            <td>{{ device.roomName || 'N/A' }}</td>
+            <td><button class="btn btn-secondary btn-sm" (click)="openAssignRoomModal(device)">Asignar a un Cuarto</button></td>
+            <td>
+              <ng-container *ngIf="device.connected"><button class="btn btn-primary btn-sm" (click)="triggerAction(device)">Disparar acción</button></ng-container>
+              <ng-container *ngIf="!device.connected">-</ng-container>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="text-center" *ngIf="!loadingDevices && devices.length === 0">No hay dispositivos en este hogar.</p>
+    </div> 
+  </div>

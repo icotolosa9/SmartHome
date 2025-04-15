@@ -1,0 +1,18 @@
+<div class="container mt-5" style="max-width: 600px;">
+    <h2 class="mb-4 text-center">Importar Dispositivos</h2>
+  
+    <div class="mb-3">
+      <label for="importerSelect" class="form-label">Seleccione un Importador</label>
+      <select id="importerSelect" class="form-control" [(ngModel)]="selectedImporter" required>
+        <option *ngFor="let importer of importers" [value]="importer">{{ importer }}</option>
+      </select>
+    </div>
+  
+    <button class="btn btn-primary w-100" [disabled]="!selectedImporter" (click)="importDevices()">
+      Importar Dispositivos
+    </button>
+  
+    <div *ngIf="importStatus" class="alert alert-info mt-3">{{ importStatus }}</div>
+    <div *ngIf="importError" class="alert alert-danger mt-3">{{ importError }}</div>
+  </div>
+  

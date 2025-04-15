@@ -1,0 +1,58 @@
+  <nav *ngIf="isLoggedIn()" class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand">SmartHome</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/home">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/list-companies">Empresas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/list-homes">Hogares</a>
+        </li>
+        <li class="nav-item" *ngIf="userRole === 'admin'">
+          <a class="nav-link" routerLink="/list-accounts">Cuentas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/list-devices">Dispositivos</a>
+        </li>
+        <div class="position-relative">
+          <i class="bi bi-bell fs-4" [class.text-danger]="hasUnreadNotifications" (click)="toggleNotifications()" style="cursor: pointer"></i>
+          <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle" *ngIf="hasUnreadNotifications"></span>
+          <div *ngIf="showPopover" class="popover bg-white shadow-sm p-3" style="position: absolute; right: 0; width: 500px;">
+            <h5 class="mb-3">Notificaciones</h5>
+            <div class="mb-3">
+              <input type="text" class="form-control mb-2" [(ngModel)]="filters.deviceType" placeholder="Filtrar por tipo de dispositivo" />
+              <input type="date" class="form-control mb-2" [(ngModel)]="filters.creationDate" placeholder="Filtrar por fecha" />
+              <select class="form-control mb-2" [(ngModel)]="filters.read">
+                <option value="">Filtrar por estado</option>
+                <option value="true">Leídas</option>
+                <option value="false">No Leídas</option>
+              </select>
+              <button class="btn btn-primary w-100" (click)="applyFilters()">Filtrar</button>
+            </div>
+        
+            <div style="max-height: 700px; overflow-y: auto;">
+              <div *ngFor="let notification of notifications" class="border rounded p-2 mb-2 d-flex justify-content-between align-items-center">
+                <div>
+                  <p class="mb-1"><strong>{{ notification.event }}</strong></p>
+                  <p class="mb-1">{{ notification.date | date: 'short' }}</p>
+                  <small>HardwareId: {{ notification.hardwareId }}</small>
+                </div>
+                <button *ngIf="!notification.isRead" class="btn btn-lg" (click)="markAsRead(notification.id)" title="Marcar como leída">
+                  <i class="bi bi-envelope-open-fill text-primary"></i>
+                </button>
+              </div>
+              <p *ngIf="notifications.length === 0" class="text-center text-muted">No hay notificaciones.</p>
+            </div>
+          </div>
+        </div>
+        <li class="nav-item">
+          <a class="nav-link" (click)="logout()">Salir</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,58 @@
+<div class="container mt-5" style="max-width: 800px;">
+  <h2 class="text-center mb-4">Registrar Dispositivo</h2>
+  <div class="mb-3">
+    <label for="deviceName" class="form-label">Nombre del Dispositivo*</label>
+    <input id="deviceName" type="text" class="form-control" [(ngModel)]="deviceName" name="deviceName" required />
+  </div>
+  <div class="mb-3">
+    <label for="deviceModel" class="form-label">Número de Modelo*</label>
+    <input id="deviceModel" type="text" class="form-control" [(ngModel)]="deviceModel" name="deviceModel" required />
+  </div>
+  <div class="mb-3">
+    <label for="deviceDescription" class="form-label">Descripción*</label>
+    <input id="deviceDescription" type="text" class="form-control" [(ngModel)]="deviceDescription" name="deviceDescription" required />
+  </div>
+  <div class="mb-3">
+    <label for="photoUrl" class="form-label">URLs de Fotografías*</label>
+    <div class="input-group mb-2">
+      <input id="photoUrl" type="text" class="form-control" [(ngModel)]="newPhotoUrl" placeholder="Ingrese URL de la imagen" />
+      <button type="button" class="btn btn-secondary" (click)="addPhoto()">Agregar</button>
+    </div>
+    <ul class="list-group">
+      <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let photo of photographs; index as i" >
+        {{ photo }}
+        <button type="button" class="btn btn-danger btn-sm" (click)="removePhoto(i)">Eliminar</button>
+      </li>
+    </ul>
+  </div>
+  <div class="mb-3">
+    <label for="deviceType" class="form-label">Tipo de Dispositivo</label>
+    <select id="deviceType" class="form-control" [(ngModel)]="deviceType" name="deviceType" (change)="onDeviceTypeChange()" required>
+      <option *ngFor="let type of deviceTypes" [value]="type.value">{{ type.label }}</option>
+    </select>
+  </div>
+  <ng-container *ngIf="deviceType === 'camera'">
+    <div class="form-check mb-2">
+      <input id="indoorUse" type="checkbox" class="form-check-input" [(ngModel)]="additionalFields.indoorUse" name="indoorUse" />
+      <label for="indoorUse" class="form-check-label">Uso Interior</label>
+    </div>
+    <div class="form-check mb-2">
+      <input id="outdoorUse" type="checkbox" class="form-check-input" [(ngModel)]="additionalFields.outdoorUse" name="outdoorUse" />
+      <label for="outdoorUse" class="form-check-label">Uso Exterior</label>
+    </div>
+
+    <div class="form-check mb-2">
+      <input id="motionDetection" type="checkbox" class="form-check-input" [(ngModel)]="additionalFields.motionDetection" name="motionDetection" />
+      <label for="motionDetection" class="form-check-label">Detección de Movimiento</label>
+    </div>
+    <div class="form-check mb-2">
+      <input id="personDetection" type="checkbox" class="form-check-input" [(ngModel)]="additionalFields.personDetection" name="personDetection" />
+      <label for="personDetection" class="form-check-label">Detección de Personas</label>
+    </div>
+  
+    <div *ngIf="isInvalidDetectionSelection()" class="text-danger">
+      Debes seleccionar exactamente una opción: Detección de Movimiento o Detección de Personas.
+    </div>
+  </ng-container>
+  <button type="button" class="btn btn-primary w-100" (click)="onSubmit()" [disabled]="!isFormValid()">Registrar Dispositivo</button>
+</div>
