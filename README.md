@@ -1,6 +1,6 @@
 # SmartHome - API RESTful
 
-Este proyecto es una API RESTful desarrollada en .NET 8 con C#, como parte del proyecto académico de las materias Diseño de Aplicaciones 1 y 2 (Universidad ORT Uruguay).  
+Este proyecto es una API RESTful desarrollada en .NET 8 con C#, como parte del proyecto académico de la materias Diseño de Aplicaciones 2 (Universidad ORT Uruguay).  
 Incluye un frontend en Angular conectado a la API.
 
 ## 🛠️ Tecnologías utilizadas
